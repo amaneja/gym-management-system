@@ -1,6 +1,8 @@
 CREATE DATABASE GymManager
+GO
 
 USE GymManager
+GO
 
 --------------------------------------------------------
 --#################### ENQUIRY ####################--
@@ -71,10 +73,10 @@ MBR_MNAME varchar(15),
 MBR_LNAME varchar(15) NOT NULL,
 MBR_GENDER char(6) NOT NULL CONSTRAINT mbr_gender_chk CHECK (MBR_GENDER IN ('Male','Female')),
 MBR_DOB DateTime,
+MBR_MARITAL_STAT varchar(10)  NOT NULL CONSTRAINT mbr_mar_stat_chk CHECK (MBR_MARITAL_STAT IN ('Single','Married')),
 MBR_ANN DateTime,
 MBR_ADDRESS1 varchar(50),
 MBR_ADDRESS2 varchar(50),
-MBR_ADDRESS3 varchar(50),
 MBR_CITY varchar(25),
 MBR_STATE varchar(25),
 MBR_POSTAL varchar(10),
@@ -83,7 +85,7 @@ MBR_FACEBOOK varchar(30),
 MBR_TWITTER varchar(30),
 MBR_MOBILE varchar(10),
 MBR_TELEPHONE varchar(10),
-MBR_EMAIL varchar(50),
+MBR_EMAIL varchar(50)
 )
 --select md.MBR_ID, isnull(md.MBR_FNAME,''), isnull(md.MBR_MNAME,''), isnull(md.MBR_LNAME,''), isnull(md.MBR_GENDER,''), isnull(md.MBR_DOB,''), isnull(md.MBR_ANN,''), isnull(md.MBR_ADDRESS1,''), isnull(md.MBR_ADDRESS2,''), isnull(md.MBR_ADDRESS3,''), isnull(md.MBR_CITY,''), isnull(md.MBR_STATE,''), isnull(md.MBR_POSTAL,''), isnull(md.MBR_COUNTRY,''), isnull(md.MBR_FACEBOOK,''), isnull(md.MBR_TWITTER,''), isnull(md.MBR_MOBILE,''), isnull(md.MBR_TELEPHONE,''), isnull(md.MBR_EMAIL,''), isnull( msd.MBR_DOJ,''), isnull( msd.MBRD_OWNER_ID,''), isnull( msd.MBRD_CREATED_BY,''), isnull( msd.MBRD_NATIONAL_CARD_ID,''), isnull( msd.MBRD_SOURCE,''), isnull( msd.MBRD_ENQUIRY_TYPE,''), isnull( msd.MBRD_NATIONALITY,''), isnull( msd.MBRD_STATUS,'') from MEMBER_DETAILS md left join MEMBERSHIP_DETAILS msd on md.MBR_Id=msd.MBR_Id
 select * from MEMBERSHIP_DETAILS
@@ -210,34 +212,123 @@ BANK_BRANCH  varchar(25),
 -- SELECT * FROM PYMT_BY_CREDITCARD
 -- DROP TABLE PYMT_BY_CREDITCARD
 
---------------- MEMBERSHIP PHYSIC TABLE ---------------
-CREATE TABLE MEMBERSHIP_PHYSC
+--------------- MEMBER_MEASUREMENTS TABLE ---------------
+CREATE TABLE MEMBER_MEASUREMENTS
 (
-MBR_ID varchar(10),
-MBRD_HEIGHT varchar(5),
-MBRD_WEIGHT varchar(3),
+MBR_ID varchar(10) NOT NULL CONSTRAINT mbr_measurements_fk REFERENCES MEMBER_DETAILS(MBR_ID),
+WEIGHT float,
+SHOULDERS float,
+BUST float,
+ARM float,
+CHEST float,
+WAIST float,
+HIPS float,
+GLUTEALS float,
+UPPER_THIGH float,
+MID_THIGH float,
+CALF float,
+BICEP float,
+TRICEP float,
+SUBSCAPULAR float,
+ILIAC float,
+CREST float,
+BODY_FAT float,
+FAT_MASS float,
+LEAN_MASS float,
+BODY_MASS_INDEX float,
+MAX_OXYGEN_UPTAKE float
 )
+
+-- SELECT * FROM MEMBER_MEASUREMENTS
+-- DROP TABLE MEMBER_MEASUREMENTS
+
+--------------------------------------------------------
+--#################### SITE DETAILS ##################--
+--------------------------------------------------------
+
+CREATE TABLE LOCATION
+(
+LOCATION_ID varchar(3),
+STREET_ADDRESS varchar(40),
+POSTAL_CODE varchar(12),
+CITY varchar(30),
+STATE_PROVINCE varchar(25),
+COUNTRY_NAME varchar(25)
+)
+
+-- SELECT * FROM LOCATION
+-- DROP TABLE LOCATION
+
+CREATE TABLE JOBS
+(
+JOB_ID varchar(5),
+JOB_TITLE varchar(35),
+MIN_SALARY int(6),
+MAX_SALARY int(6),
+)
+
+-- SELECT * FROM JOBS
+-- DROP TABLE JOBS
+
+CREATE TABLE DEPARTMENT
+(
+DEPARTMENT_ID int(4)
+DEPARTMENT_NAME varchar(30)
+MANAGER_ID int(6)
+LOCATION_ID varchar(3)
+)
+
+-- SELECT * FROM DEPARTMENT
+-- DROP TABLE DEPARTMENT
+
 
 --------------------------------------------------------
 --#################### EMPLOYEE ######################--
 --------------------------------------------------------
 
-
---------------- EMPLOYEE_MASTER TABLE ----------------
-CREATE TABLE EMPLOYEE_MSTR
+--------------- EMPLOYEE_DETAILS TABLE ----------------
+CREATE  TABLE EMPLOYEE_DETAILS
 (
-
+EMP_ID varchar(10) PRIMARY KEY NOT NULL CONSTRAINT EMP_id_pk CHECK (EMP_ID LIKE 'MBR%'),
+EMP_FNAME varchar(15) NOT NULL,
+EMP_MNAME varchar(15),
+EMP_LNAME varchar(15) NOT NULL,
+EMP_GENDER char(6) NOT NULL CONSTRAINT EMP_gender_chk CHECK (EMP_GENDER IN ('Male','Female')),
+EMP_DOB DateTime,
+EMP_MARITAL_STAT varchar(10),
+EMP_ANN DateTime,
+EMP_ADDRESS1 varchar(50),
+EMP_ADDRESS2 varchar(50),
+EMP_CITY varchar(25),
+EMP_STATE varchar(25),
+EMP_POSTAL varchar(10),
+EMP_COUNTRY varchar(25),
+EMP_FACEBOOK varchar(30),
+EMP_TWITTER varchar(30),
+EMP_MOBILE varchar(10),
+EMP_TELEPHONE varchar(10),
+EMP_EMAIL varchar(50)
 )
 
---------------- MEMBERSHIP DETAILS TABLE ---------------
-CREATE TABLE EMPLOYEE_DETAILS
-(
-
-)
+-- SELECT * FROM EMPLOYEE_DETAILS
+-- DROP TABLE EMPLOYEE_DETAILS
 
 --------------------------------------------------------
 --#################### MANAGEMENT ####################--
 --------------------------------------------------------
+
+CREATE TABLE EMPLOYMENT_DETAILS
+(
+EMP_ID
+JOB_ID
+HIRE_DATE Datetime,
+SALARY
+COMMISSION
+MANAGER_ID
+DEPARTMENT_ID
+)
+
+
 
 CREATE TABLE LOGIN
 (
