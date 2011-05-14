@@ -270,18 +270,6 @@ MAX_SALARY money,
 -- SELECT * FROM JOBS
 -- DROP TABLE JOBS
 
-CREATE TABLE DEPARTMENT
-(
-DEPT_ID varchar(5) PRIMARY KEY NOT NULL CONSTRAINT dept_id_pk CHECK(DEPT_ID LIKE 'DPT%'),
-DEPARTMENT_NAME varchar(30),
-MANAGER_ID varchar(10) NOT NULL CONSTRAINT dept_mgrid_fk REFERENCES EMPLOYEE_DETAILS(EMP_ID),
-LOCATION_ID varchar(5) NOT NULL CONSTRAINT dept_locid_fk REFERENCES LOCATION(LOC_ID)
-)
-
--- SELECT * FROM DEPARTMENT
--- DROP TABLE DEPARTMENT
-
-
 --------------------------------------------------------
 --#################### EMPLOYEE ######################--
 --------------------------------------------------------
@@ -307,15 +295,24 @@ EMP_FACEBOOK varchar(30),
 EMP_TWITTER varchar(30),
 EMP_MOBILE varchar(10),
 EMP_TELEPHONE varchar(10),
-EMP_EMAIL varchar(50)
+EMP_EMAIL varchar(50),
+EMP_PAN varchar(10)
 )
+INSERT INTO EMPLOYEE_DETAILS (EMP_ID,EMP_FNAME,EMP_LNAME,EMP_GENDER) VALUES ('EMP0000002','Aman','Aneja','Male')
 
 -- SELECT * FROM EMPLOYEE_DETAILS
 -- DROP TABLE EMPLOYEE_DETAILS
 
---------------------------------------------------------
---#################### MANAGEMENT ####################--
---------------------------------------------------------
+CREATE TABLE DEPARTMENT
+(
+DEPT_ID varchar(5) PRIMARY KEY NOT NULL CONSTRAINT dept_id_pk CHECK(DEPT_ID LIKE 'DPT%'),
+DEPARTMENT_NAME varchar(30),
+MANAGER_ID varchar(10) NOT NULL CONSTRAINT dept_mgrid_fk REFERENCES EMPLOYEE_DETAILS(EMP_ID),
+LOCATION_ID varchar(5) NOT NULL CONSTRAINT dept_locid_fk REFERENCES LOCATION(LOC_ID)
+)
+
+-- SELECT * FROM DEPARTMENT
+-- DROP TABLE DEPARTMENT
 
 CREATE TABLE EMPLOYMENT_DETAILS
 (
@@ -328,6 +325,13 @@ MANAGER_ID varchar(10) NOT NULL CONSTRAINT empdet_mgrid_fk REFERENCES EMPLOYEE_D
 DEPARTMENT_ID varchar(5) NOT NULL CONSTRAINT empdet_deptid_fk REFERENCES DEPARTMENT(DEPT_ID)
 )
 
+-- SELECT * FROM EMPLOYMENT_DETAILS
+-- DROP TABLE EMPLOYMENT_DETAILS
+
+
+--------------------------------------------------------
+--#################### MANAGEMENT ####################--
+--------------------------------------------------------
 
 
 CREATE TABLE LOGIN
